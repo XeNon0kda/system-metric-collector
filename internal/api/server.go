@@ -32,7 +32,6 @@ func NewServer(cfg *config.Config, handler http.Handler, logger *logger.Logger) 
 }
 
 func (s *Server) Run() error {
-    // Graceful shutdown channel
     quit := make(chan os.Signal, 1)
     signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 

@@ -9,14 +9,11 @@ import (
 func SetupRoutes(metricsHandler *MetricsHandler, logger *logger.Logger) http.Handler {
     mux := http.NewServeMux()
 
-    // API endpoint
     mux.HandleFunc("GET /api/metrics", metricsHandler.GetMetrics)
 
-    // Static files (web UI)
     fileServer := http.FileServer(http.Dir("./web/static"))
     mux.Handle("/", fileServer)
 
-    // Middleware: logging, panic recovery
     handler := loggingMiddleware(logger, mux)
     handler = recoveryMiddleware(logger, handler)
 

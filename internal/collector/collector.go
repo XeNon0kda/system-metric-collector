@@ -29,14 +29,12 @@ func (c *SystemCollector) Collect(ctx context.Context) (*models.Metrics, error) 
         Timestamp: time.Now(),
     }
 
-    // CPU
     cpuPercents, err := cpu.Percent(0, false)
     if err == nil && len(cpuPercents) > 0 {
         metrics.CPU.Percent = cpuPercents[0]
     }
     metrics.CPU.Cores = runtime.NumCPU()
 
-    // Memory
     vmStat, err := mem.VirtualMemory()
     if err == nil {
         metrics.Memory = models.MemoryStats{
@@ -47,7 +45,6 @@ func (c *SystemCollector) Collect(ctx context.Context) (*models.Metrics, error) 
         }
     }
 
-    // Disk
     partitions, err := disk.Partitions(false)
     if err == nil {
         for _, p := range partitions {
@@ -65,7 +62,6 @@ func (c *SystemCollector) Collect(ctx context.Context) (*models.Metrics, error) 
         }
     }
 
-    // Network
     netStats, err := net.IOCounters(true)
     if err == nil {
         for _, n := range netStats {
@@ -77,7 +73,6 @@ func (c *SystemCollector) Collect(ctx context.Context) (*models.Metrics, error) 
         }
     }
 
-    // Processes count
     procs, err := process.Processes()
     if err == nil {
         metrics.Processes = len(procs)

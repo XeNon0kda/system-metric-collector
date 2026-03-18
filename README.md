@@ -15,4 +15,4 @@
 ### Локально
 
 ```bash
-make run
+go run cmd/server/main.go
